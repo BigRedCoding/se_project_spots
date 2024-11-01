@@ -16,7 +16,7 @@
 
 ### **`DEPLOYMENT:`**
 
-### This website is desployed on GitHub at the following link: [here](bigredcoding.github.io/se-project-spots/)
+### This website is desployed on GitHub at the following link: [here](https://bigredcoding.github.io/se_project_spots/)
 
 ================================================================================================
 

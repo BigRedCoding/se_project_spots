@@ -87,7 +87,7 @@
     max-width: 288px;
     align-items: center;
     text-align: center;
-    padding-top: 20px;
+    padding-top: 20px; /*Found this issue. Fixed it.*/
   }
   .profile__avatar {
     height: 80px;
