@@ -1,0 +1,108 @@
+.card {
+  display: block;
+  position: relative;
+}
+.card__image {
+  height: 413px;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+.card__title {
+  margin: 12px 24px 0 0;
+  padding: 0;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  align-self: flex-start;
+}
+
+.card__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card__like-button {
+  /*I had to make some changes. This button wasn't displaying
+  correctly, nor was the card__title. You may not agree, but
+  seriously this is the only way I can make it look correct.
+  Part of why is the letter "g" causes the like button to
+  display below the line unless I cause the "g" to be cut
+  off. Also had to add a margin to the card title to
+  accommdate for the size of the like image plus 1px. These
+  issues were not addressed in previous reviews, but I felt
+  it necessary to fix it some type of way. */
+  position: absolute;
+  right: 0;
+  bottom: 5px;
+  background-image: url(../images/Heart.svg);
+  width: 23px;
+  height: 20px;
+  border: none;
+  background-color: transparent;
+  opacity: 40%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+}
+
+.card__delete-button {
+  background-image: url("../images/Delete.svg");
+  background-size: contain;
+  background-color: rgba(255, 255, 255, 0);
+  width: 32px;
+  height: 32px;
+  border: none;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.card__delete-button:hover {
+  background-image: url("../images/DeleteHover.svg");
+  cursor: pointer;
+}
+
+.card__like-button:hover {
+  opacity: 100%;
+  cursor: pointer;
+}
+
+.card__like-button_liked {
+  background-image: url("../images/State_Liked.svg");
+  opacity: 100%;
+}
+
+.card__like-button_liked:hover {
+  background-image: url("../images/State_Like_Hovered.svg");
+  cursor: pointer;
+}
+
+@media screen and (max-width: 627px) {
+  .card__image {
+    height: 288px;
+  }
+
+  .card__title {
+    font-size: 16px;
+    line-height: 16px;
+  }
+  .card__like-button {
+    width: 20px;
+    height: 18px;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .card__content {
+    margin: 0 0 2px;
+  }
+}
