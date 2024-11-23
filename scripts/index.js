@@ -25,8 +25,6 @@ const initialCards = [
   },
 ];
 
-/*console.log(initialCards);*/
-
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 
@@ -37,7 +35,7 @@ const editFormElement = editProfileModal.querySelector(".modal__form");
 
 const profileAddButton = document.querySelector(".profile__add-button");
 const addCardModal = document.querySelector("#add-card-modal");
-const cardModalCloseButton = addCardModal.querySelector(".modal__close-btn");
+const cardModalCloseButton = addCardModal.querySelector(".modal__close-button");
 const cardForm = addCardModal.querySelector(".modal__form");
 
 const cardNameInput = addCardModal.querySelector("#add-card-name-input");
@@ -46,10 +44,13 @@ const cardLinkInput = addCardModal.querySelector("#add-card-link-input");
 const previewModal = document.querySelector("#preview-modal");
 const previewModalImageEl = previewModal.querySelector(".modal__image");
 const previewModalCaptionEl = previewModal.querySelector(".modal__caption");
-const previewModalCloseButton = previewModal.querySelector(".modal__close-btn");
+const previewModalCloseButton = previewModal.querySelector(
+  ".modal__close-button"
+);
 
-const editModalCloseButton =
-  editProfileModal.querySelector(".modal__close-btn");
+const editModalCloseButton = editProfileModal.querySelector(
+  ".modal__close-button"
+);
 
 const editModalNameInput = editProfileModal.querySelector(
   "#profile-name-input"
@@ -81,7 +82,9 @@ function getCardElement(data) {
   });
 
   cardDeleteButton.addEventListener("click", (evt) => {
-    evt.target.closest(".card").remove();
+    const cardElement = evt.target.closest(".card");
+    cardElement.remove(); /*Review 1 Issue 1 fixed. I think. The other way worked too and I thought was the 'Short-hand' and is recommended
+    on discord, which is why I used it.*/
   });
 
   cardImageEl.addEventListener("click", () => {
@@ -114,7 +117,11 @@ function handleCardFormSubmit(evt) {
   const inputValues = { name: cardNameInput.value, link: cardLinkInput.value };
   const cardElement = getCardElement(inputValues);
   cardsList.prepend(cardElement);
+
   closeModal(addCardModal);
+
+  cardNameInput.value = ""; /*Review 1 Issue 2 fixed*/
+  cardLinkInput.value = "";
 }
 
 profileEditButton.addEventListener("click", () => {

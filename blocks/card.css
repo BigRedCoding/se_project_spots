@@ -78,7 +78,7 @@
 }
 
 .card__like-button_liked {
-  background-image: url("../images/State_Liked.svg");
+  background-image: url("../images/State_Liked.svg"); /*Review 1 issue 3. Fixed. Had to double click image in Figma, then download. Silly */
   opacity: 100%;
 }
 
