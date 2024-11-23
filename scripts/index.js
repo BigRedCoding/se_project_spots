@@ -82,9 +82,10 @@ function getCardElement(data) {
   });
 
   cardDeleteButton.addEventListener("click", (evt) => {
-    const cardElement = evt.target.closest(".card");
-    cardElement.remove(); /*Review 1 Issue 1 fixed. I think. The other way worked too and I thought was the 'Short-hand' and is recommended
+    cardElement.remove();
+    /*Review 1 Issue 1 fixed. I think. The other way worked too and I thought was the 'Short-hand' and is recommended
     on discord, which is why I used it.*/
+    /* Review 2 Issue 1 fixed. I thought the object needed redefined as the target */
   });
 
   cardImageEl.addEventListener("click", () => {

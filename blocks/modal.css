@@ -173,14 +173,15 @@
     max-height: 100vh;
   }
 
-  .modal__content_preview {
+  .modal__content-preview {
     padding: 0 6px;
   }
 
-  .modal__close_preview {
+  .modal__close-preview {
     top: -48px;
     right: 0;
   }
+  /*Review 2 issue 2. Fixed. Sorry, forgot to fix these BEM issues here last time */
 }
 
 @media (orientation: landscape) {
