@@ -1,3 +1,5 @@
+import { Api } from "./api.js";
+
 const initialCards = [
   {
     name: "Val Thorens",
@@ -25,6 +27,18 @@ const initialCards = [
   },
 ];
 
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "43fa4645-4639-4fec-992c-ea3c61acb906",
+    "Content-Type": "application/json",
+  },
+});
+
+api.getInitialCards().then((cards) => {
+  console.log(cards);
+});
+
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
 
@@ -37,6 +51,10 @@ const profileAddButton = document.querySelector(".profile__add-button");
 const addCardModal = document.querySelector("#add-card-modal");
 const cardModalCloseButton = addCardModal.querySelector(".modal__close-button");
 const cardForm = addCardModal.querySelector(".modal__form");
+const cardSubmitButton = addCardModal.querySelector(".modal__submit-button");
+const profileSubmitButton = editProfileModal.querySelector(
+  ".modal__submit-button"
+);
 
 const cardNameInput = addCardModal.querySelector("#add-card-name-input");
 const cardLinkInput = addCardModal.querySelector("#add-card-link-input");
@@ -83,9 +101,6 @@ function getCardElement(data) {
 
   cardDeleteButton.addEventListener("click", (evt) => {
     cardElement.remove();
-    /*Review 1 Issue 1 fixed. I think. The other way worked too and I thought was the 'Short-hand' and is recommended
-    on discord, which is why I used it.*/
-    /* Review 2 Issue 1 fixed. I thought the object needed redefined as the target */
   });
 
   cardImageEl.addEventListener("click", () => {
@@ -98,18 +113,67 @@ function getCardElement(data) {
   return cardElement;
 }
 
+function handleOutsideClick(modal) {
+  return function (event) {
+    if (!event.target.closest(".modal__content")) {
+      closeModal(modal);
+    }
+    console.log("test3");
+  };
+}
+
+function handleEscapePress(modal) {
+  return function (event) {
+    if (event.key === "Escape" || event.key === "Esc") {
+      closeModal(modal);
+    }
+    console.log("test4");
+  };
+}
+
+let outsideClickHandler, escapePressHandler;
+
 function openModal(modal) {
   modal.classList.add("modal_opened");
+  console.log("test");
+
+  outsideClickHandler = handleOutsideClick(modal);
+  escapePressHandler = handleEscapePress(modal);
+
+  setTimeout(() => {
+    addListeners(outsideClickHandler, escapePressHandler);
+  }, 1);
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
+  console.log("test2");
+
+  if (outsideClickHandler && escapePressHandler) {
+    removeListeners(outsideClickHandler, escapePressHandler);
+  }
+
+  outsideClickHandler = null;
+  escapePressHandler = null;
+}
+
+function addListeners(outsideClickHandler, escapePressHandler) {
+  document.addEventListener("click", outsideClickHandler);
+  document.addEventListener("keydown", escapePressHandler);
+  console.log("test5");
+}
+
+function removeListeners(outsideClickHandler, escapePressHandler) {
+  document.removeEventListener("click", outsideClickHandler);
+  document.removeEventListener("keydown", escapePressHandler);
+  console.log("test6");
 }
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
   profileName.textContent = editModalNameInput.value;
   profileDescription.textContent = editModalDescriptionInput.value;
+  disableButton(profileSubmitButton, settings);
   closeModal(editProfileModal);
 }
 
@@ -118,16 +182,21 @@ function handleCardFormSubmit(evt) {
   const inputValues = { name: cardNameInput.value, link: cardLinkInput.value };
   const cardElement = getCardElement(inputValues);
   cardsList.prepend(cardElement);
+  evt.target.reset();
+  disableButton(cardSubmitButton, settings);
 
   closeModal(addCardModal);
-
-  cardNameInput.value = ""; /*Review 1 Issue 2 fixed*/
-  cardLinkInput.value = "";
 }
 
 profileEditButton.addEventListener("click", () => {
   editModalNameInput.value = profileName.textContent;
   editModalDescriptionInput.value = profileDescription.textContent;
+  resetValidation(
+    profileEditButton,
+    editFormElement,
+    [editModalNameInput, editModalDescriptionInput],
+    settings
+  );
   openModal(editProfileModal);
 });
 editModalCloseButton.addEventListener("click", () => {
