@@ -59,9 +59,35 @@ class Api {
       return Promise.reject(`Error: ${res.status}`);
     });
   }
+  addCard(name) {
+    return fetch(`${this._baseUrl}/cards`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify(name),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Error: ${res.status}`);
+    });
+  }
   deleteCard(id) {
     return fetch(`${this._baseUrl}/cards/${id}`, {
       method: "DELETE",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Error: ${res.status}`);
+    });
+  }
+  toggleLike(id, isLiked) {
+    const methodToggle = isLiked ? "PUT" : "DELETE";
+
+    console.log(methodToggle);
+    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+      method: methodToggle,
       headers: this._headers,
     }).then((res) => {
       if (res.ok) {

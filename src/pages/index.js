@@ -132,8 +132,8 @@ function getCardElement(data) {
   cardImageEl.src = data.link;
   cardImageEl.alt = data.name;
 
-  cardLikeButton.addEventListener("click", () => {
-    handleCardLike(cardLikeButton);
+  cardLikeButton.addEventListener("click", (evt) => {
+    handleCardLike(evt, data._id);
   });
 
   cardDeleteButton.addEventListener("click", () => {
@@ -147,8 +147,16 @@ function getCardElement(data) {
   return cardElement;
 }
 
-function handleCardLike(cardLikeButton) {
-  cardLikeButton.classList.toggle("card__like-button_liked");
+function handleCardLike(evt, dataId) {
+  evt.target.classList.toggle("card__like-button_liked");
+
+  let isLiked = evt.target.classList.contains("card__like-button_liked")
+    ? true
+    : false;
+
+  console.log(isLiked);
+
+  api.toggleLike(dataId, isLiked).then();
 }
 
 function handleImageClick(data) {
@@ -159,7 +167,7 @@ function handleImageClick(data) {
 }
 
 function handleDeleteCard(cardElement, cardId) {
-  selectedCard = cardElement; // Assign the card element to selectedCard
+  selectedCard = cardElement;
   selectedCardId = cardId;
 
   openModal(deleteModal);
@@ -250,6 +258,8 @@ function handleCardFormSubmit(evt) {
   const inputValues = { name: cardNameInput.value, link: cardLinkInput.value };
   const cardElement = getCardElement(inputValues);
   cardsList.prepend(cardElement);
+  api.addCard(inputValues);
+  // FOCUS
   evt.target.reset();
   disableButton(cardSubmitButton, settings);
 
@@ -258,7 +268,6 @@ function handleCardFormSubmit(evt) {
 
 function handleAvatarSubmit(evt) {
   evt.preventDefault();
-  debugger;
   api
     .editAvatarInfo(avatarInput.value)
     .then((data) => {
