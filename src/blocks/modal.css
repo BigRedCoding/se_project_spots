@@ -87,6 +87,7 @@
   margin: 0;
   font-size: 32px;
   line-height: 1;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-weight: 500;
 }
 
@@ -95,6 +96,7 @@
   margin-bottom: 32px;
   font-size: 16px;
   line-height: 17.6px;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-weight: 500;
   color: rgba(33, 33, 33, 0.7);
 }
