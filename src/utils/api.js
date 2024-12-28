@@ -84,8 +84,6 @@ class Api {
   }
   toggleLike(id, isLiked) {
     const methodToggle = isLiked ? "PUT" : "DELETE";
-
-    console.log(methodToggle);
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: methodToggle,
       headers: this._headers,

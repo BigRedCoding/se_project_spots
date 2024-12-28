@@ -9,33 +9,6 @@ import "../pages/index.css";
 
 import Api from "../utils/api.js";
 
-// const initialCards = [
-//   {
-//     name: "Val Thorens",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/1-photo-by-moritz-feldmann-from-pexels.jpg",
-//   },
-//   {
-//     name: "Restaurant terrace",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/2-photo-by-ceiline-from-pexels.jpg",
-//   },
-//   {
-//     name: "An outdoor cafe",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/3-photo-by-tubanur-dogan-from-pexels.jpg",
-//   },
-//   {
-//     name: "A very long bridge, over the forest and through the trees",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/4-photo-by-maurice-laschet-from-pexels.jpg",
-//   },
-//   {
-//     name: "Tunnel with morning light",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/5-photo-by-van-anh-nguyen-from-pexels.jpg",
-//   },
-//   {
-//     name: "Mountain house",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
-//   },
-// ];
-
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
   headers: {
@@ -114,6 +87,8 @@ const avatarSubmitButton = addAvatarModal.querySelector(
 
 const deleteModal = document.querySelector("#delete-modal");
 const deleteForm = deleteModal.querySelector(".modal__form");
+const deleteCancelButton = deleteModal.querySelector("#cancel-delete-button");
+const deleteCloseButton = deleteModal.querySelector(".modal__close-button");
 
 let selectedCard;
 let selectedCardId;
@@ -131,6 +106,10 @@ function getCardElement(data) {
   cardNameEl.textContent = data.name;
   cardImageEl.src = data.link;
   cardImageEl.alt = data.name;
+
+  if (data.isLiked) {
+    cardLikeButton.classList.add("card__like-button_liked");
+  }
 
   cardLikeButton.addEventListener("click", (evt) => {
     handleCardLike(evt, data._id);
@@ -153,10 +132,6 @@ function handleCardLike(evt, dataId) {
   let isLiked = evt.target.classList.contains("card__like-button_liked")
     ? true
     : false;
-
-  console.log(isLiked);
-
-  //Focus
   api.toggleLike(dataId, isLiked).then().catch(console.error);
 }
 
@@ -170,7 +145,6 @@ function handleImageClick(data) {
 function handleDeleteCard(cardElement, cardId) {
   selectedCard = cardElement;
   selectedCardId = cardId;
-  //<<<<<<<FIX
   openModal(deleteModal);
 
   deleteForm.addEventListener("submit", handleDeleteSubmit);
@@ -183,7 +157,7 @@ function handleDeleteSubmit(evt) {
   submitButton.textContent = "Deleting...";
 
   api
-    .deleteCard(selectedCardId) // pass the ID the the api function
+    .deleteCard(selectedCardId)
     .then(() => {
       selectedCard.remove();
     })
@@ -249,7 +223,6 @@ function handleEditFormSubmit(evt) {
 
   const submitButton = evt.submitter;
   submitButton.textContent = "Saving...";
-  //call new function JS and implement
   api
     .editUserInfo({
       name: editModalNameInput.value,
@@ -270,9 +243,6 @@ function handleEditFormSubmit(evt) {
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
   const inputValues = { name: cardNameInput.value, link: cardLinkInput.value };
-
-  //call new function JS and implement
-  // update API
 
   const submitButton = evt.submitter;
   submitButton.textContent = "Saving...";
@@ -297,8 +267,6 @@ function handleAvatarSubmit(evt) {
 
   const submitButton = evt.submitter;
   submitButton.textContent = "Saving...";
-  //call new function JS and implement
-  // update API
   api
     .editAvatarInfo(avatarInput.value)
     .then((data) => {
@@ -351,9 +319,12 @@ avatarModalCloseButton.addEventListener("click", () => {
   closeModal(addAvatarModal);
 });
 
-enableValidation(settings);
+deleteCloseButton.addEventListener("click", () => {
+  closeModal(deleteModal);
+});
 
-// - Need to style site
-// - Style and change labels for delete panel
-// - fix like retention issue
-// - resolve helpers.js and implement text change function into appropriate sections
+deleteCancelButton.addEventListener("click", () => {
+  closeModal(deleteModal);
+});
+
+enableValidation(settings);
