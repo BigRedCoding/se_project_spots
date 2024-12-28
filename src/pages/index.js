@@ -156,7 +156,8 @@ function handleCardLike(evt, dataId) {
 
   console.log(isLiked);
 
-  api.toggleLike(dataId, isLiked).then();
+  //Focus
+  api.toggleLike(dataId, isLiked).then().catch(console.error);
 }
 
 function handleImageClick(data) {
@@ -169,23 +170,29 @@ function handleImageClick(data) {
 function handleDeleteCard(cardElement, cardId) {
   selectedCard = cardElement;
   selectedCardId = cardId;
-
+  //<<<<<<<FIX
   openModal(deleteModal);
+
+  deleteForm.addEventListener("submit", handleDeleteSubmit);
 }
 
 function handleDeleteSubmit(evt) {
   evt.preventDefault();
+
+  const submitButton = evt.submitter;
+  submitButton.textContent = "Deleting...";
+
   api
     .deleteCard(selectedCardId) // pass the ID the the api function
     .then(() => {
-      cardElement.remove();
-      // remove the card from the DOM
-      // close the modal
+      selectedCard.remove();
     })
-    .catch(console.error);
+    .catch(console.error)
+    .finally(() => {
+      submitButton.textContent = "Delete";
+      closeModal(deleteModal);
+    });
 }
-
-deleteForm.addEventListener("submit", handleDeleteSubmit);
 
 function handleOutsideClick(modal) {
   return function (event) {
@@ -239,6 +246,10 @@ function removeListeners(outsideClickHandler, escapePressHandler) {
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
+
+  const submitButton = evt.submitter;
+  submitButton.textContent = "Saving...";
+  //call new function JS and implement
   api
     .editUserInfo({
       name: editModalNameInput.value,
@@ -247,35 +258,58 @@ function handleEditFormSubmit(evt) {
     .then((data) => {
       profileName.textContent = data.name;
       profileDescription.textContent = data.about;
+    })
+    .catch(console.error)
+    .finally(() => {
+      submitButton.textContent = "Save";
       disableButton(profileSubmitButton, settings);
       closeModal(editProfileModal);
-    })
-    .catch(console.error);
+    });
 }
 
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
   const inputValues = { name: cardNameInput.value, link: cardLinkInput.value };
-  const cardElement = getCardElement(inputValues);
-  cardsList.prepend(cardElement);
-  api.addCard(inputValues);
-  // FOCUS
-  evt.target.reset();
-  disableButton(cardSubmitButton, settings);
 
-  closeModal(addCardModal);
+  //call new function JS and implement
+  // update API
+
+  const submitButton = evt.submitter;
+  submitButton.textContent = "Saving...";
+
+  api
+    .addCard(inputValues)
+    .then((card) => {
+      const cardElement = getCardElement(inputValues);
+      cardsList.prepend(cardElement);
+      evt.target.reset();
+    })
+    .catch(console.error)
+    .finally(() => {
+      submitButton.textContent = "Save";
+      disableButton(cardSubmitButton, settings);
+      closeModal(addCardModal);
+    });
 }
 
 function handleAvatarSubmit(evt) {
   evt.preventDefault();
+
+  const submitButton = evt.submitter;
+  submitButton.textContent = "Saving...";
+  //call new function JS and implement
+  // update API
   api
     .editAvatarInfo(avatarInput.value)
     .then((data) => {
       profileAvatar.src = avatarInput.value;
+    })
+    .catch(console.error)
+    .finally(() => {
+      submitButton.textContent = "Save";
       disableButton(avatarSubmitButton, settings);
       closeModal(addAvatarModal);
-    })
-    .catch(console.error);
+    });
 }
 
 profileEditButton.addEventListener("click", () => {
@@ -318,3 +352,8 @@ avatarModalCloseButton.addEventListener("click", () => {
 });
 
 enableValidation(settings);
+
+// - Need to style site
+// - Style and change labels for delete panel
+// - fix like retention issue
+// - resolve helpers.js and implement text change function into appropriate sections

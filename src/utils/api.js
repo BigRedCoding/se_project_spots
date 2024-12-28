@@ -89,6 +89,9 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: methodToggle,
       headers: this._headers,
+      body: JSON.stringify({
+        isLiked,
+      }),
     }).then((res) => {
       if (res.ok) {
         return res.json();

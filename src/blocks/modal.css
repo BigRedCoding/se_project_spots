@@ -13,6 +13,8 @@
   padding: 0 16px;
   transition: visibility 0.5s, opacity 1s ease-in-out;
   opacity: 0;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-weight: 500;
 }
 .modal__form {
   margin-top: 32px;
@@ -145,6 +147,23 @@
   border: 1px solid rgba(255, 0, 0, 0.6);
 }
 
+#delete-image-form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+#delete-image-button {
+  background-color: #ff6565;
+  color: #212121;
+}
+
+#cancel-delete-button {
+  background-color: #ffffff;
+  color: #212121;
+}
+
 .modal__close-button:hover {
   opacity: 100%;
   cursor: pointer;
@@ -161,6 +180,16 @@
 
 .modal__close-preview:hover {
   background-image: url("../images/Close_Prev_Btn_Hover.png");
+}
+
+#delete-image-button:hover {
+  background-color: #ff3333;
+  color: #212121;
+}
+
+#cancel-delete-button:hover {
+  background-color: #212121;
+  color: #ffffff;
 }
 
 @media screen and (max-width: 627px) {
