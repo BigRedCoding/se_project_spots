@@ -60,7 +60,7 @@ class Api {
     }).then(this._checkResponse);
   }
   toggleLike(id, isLiked) {
-    const methodToggle = isLiked ? "PUT" : "DELETE";
+    const methodToggle = !isLiked ? "PUT" : "DELETE";
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: methodToggle,
       headers: this._headers,
