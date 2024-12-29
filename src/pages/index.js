@@ -250,7 +250,7 @@ function handleCardFormSubmit(evt) {
   api
     .addCard(inputValues)
     .then((card) => {
-      const cardElement = getCardElement(inputValues);
+      const cardElement = getCardElement(card);
       cardsList.prepend(cardElement);
       evt.target.reset();
     })
