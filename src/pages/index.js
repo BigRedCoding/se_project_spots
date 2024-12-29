@@ -126,13 +126,17 @@ function getCardElement(data) {
   return cardElement;
 }
 
+function toggleLikeClass(evt) {
+  evt.target.classList.toggle("card__like-button_liked");
+}
+
 function handleCardLike(evt, dataId) {
   let isLiked = evt.target.classList.contains("card__like-button_liked")
     ? true
     : false;
   api
     .toggleLike(dataId, isLiked)
-    .then(evt.target.classList.toggle("card__like-button_liked"))
+    .then(toggleLikeClass(evt))
     .catch(console.error);
 }
 
@@ -157,14 +161,9 @@ function handleDeleteSubmit(evt) {
 
   api
     .deleteCard(selectedCardId)
-    .then(() => {
-      selectedCard.remove();
-      closeModal(deleteModal);
-    })
+    .then(selectedCard.remove(), closeModal(deleteModal))
     .catch(console.error)
-    .finally(() => {
-      submitButton.textContent = "Delete";
-    });
+    .finally((submitButton.textContent = "Delete"));
 }
 
 deleteForm.addEventListener("submit", handleDeleteSubmit);
@@ -236,9 +235,7 @@ function handleEditFormSubmit(evt) {
       closeModal(editProfileModal);
     })
     .catch(console.error)
-    .finally(() => {
-      submitButton.textContent = "Save";
-    });
+    .finally((submitButton.textContent = "Save"));
 }
 
 function handleCardFormSubmit(evt) {
@@ -258,9 +255,7 @@ function handleCardFormSubmit(evt) {
       closeModal(addCardModal);
     })
     .catch(console.error)
-    .finally(() => {
-      submitButton.textContent = "Save";
-    });
+    .finally((submitButton.textContent = "Save"));
 }
 
 function handleAvatarSubmit(evt) {
@@ -270,15 +265,13 @@ function handleAvatarSubmit(evt) {
   submitButton.textContent = "Saving...";
   api
     .editAvatarInfo(avatarInput.value)
-    .then((data) => {
-      profileAvatar.src = avatarInput.value;
-      disableButton(avatarSubmitButton, settings);
-      closeModal(addAvatarModal);
-    })
+    .then(
+      (profileAvatar.src = avatarInput.value),
+      disableButton(avatarSubmitButton, settings),
+      closeModal(addAvatarModal)
+    )
     .catch(console.error)
-    .finally(() => {
-      submitButton.textContent = "Save";
-    });
+    .finally((submitButton.textContent = "Save"));
 }
 
 profileEditButton.addEventListener("click", () => {
