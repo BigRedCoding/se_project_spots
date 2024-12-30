@@ -126,17 +126,13 @@ function getCardElement(data) {
   return cardElement;
 }
 
-function toggleLikeClass(evt) {
-  evt.target.classList.toggle("card__like-button_liked");
-}
-
 function handleCardLike(evt, dataId) {
   let isLiked = evt.target.classList.contains("card__like-button_liked")
     ? true
     : false;
   api
     .toggleLike(dataId, isLiked)
-    .then(toggleLikeClass(evt))
+    .then(() => evt.target.classList.toggle("card__like-button_liked"))
     .catch(console.error);
 }
 
@@ -161,7 +157,10 @@ function handleDeleteSubmit(evt) {
 
   api
     .deleteCard(selectedCardId)
-    .then(selectedCard.remove(), closeModal(deleteModal))
+    .then(() => {
+      selectedCard.remove();
+      closeModal(deleteModal);
+    })
     .catch(console.error)
     .finally((submitButton.textContent = "Delete"));
 }
@@ -265,11 +264,11 @@ function handleAvatarSubmit(evt) {
   submitButton.textContent = "Saving...";
   api
     .editAvatarInfo(avatarInput.value)
-    .then(
+    .then(() => {
       (profileAvatar.src = avatarInput.value),
-      disableButton(avatarSubmitButton, settings),
-      closeModal(addAvatarModal)
-    )
+        disableButton(avatarSubmitButton, settings),
+        closeModal(addAvatarModal);
+    })
     .catch(console.error)
     .finally((submitButton.textContent = "Save"));
 }
