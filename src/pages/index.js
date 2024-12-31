@@ -29,7 +29,7 @@ api
     profileAvatar.src = user.avatar;
     profileAvatar.alt = user.name;
   })
-  .catch(() => console.error);
+  .catch(console.error);
 
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
@@ -133,7 +133,7 @@ function handleCardLike(evt, dataId) {
   api
     .toggleLike(dataId, isLiked)
     .then(() => evt.target.classList.toggle("card__like-button_liked"))
-    .catch(() => console.error);
+    .catch(console.error);
 }
 
 function handleImageClick(data) {
@@ -161,7 +161,7 @@ function handleDeleteSubmit(evt) {
       selectedCard.remove();
       closeModal(deleteModal);
     })
-    .catch(() => console.error)
+    .catch(console.error)
     .finally(() => (submitButton.textContent = "Delete"));
 }
 
@@ -233,7 +233,7 @@ function handleEditFormSubmit(evt) {
       disableButton(profileSubmitButton, settings);
       closeModal(editProfileModal);
     })
-    .catch(() => console.error)
+    .catch(console.error)
     .finally(() => (submitButton.textContent = "Save"));
 }
 
@@ -253,7 +253,7 @@ function handleCardFormSubmit(evt) {
       disableButton(cardSubmitButton, settings);
       closeModal(addCardModal);
     })
-    .catch(() => console.error)
+    .catch(console.error)
     .finally(() => (submitButton.textContent = "Save"));
 }
 
@@ -269,7 +269,7 @@ function handleAvatarSubmit(evt) {
       disableButton(avatarSubmitButton, settings);
       closeModal(addAvatarModal);
     })
-    .catch(() => console.error)
+    .catch(console.error)
     .finally(() => (submitButton.textContent = "Save"));
 }
 
