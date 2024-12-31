@@ -29,7 +29,7 @@ api
     profileAvatar.src = user.avatar;
     profileAvatar.alt = user.name;
   })
-  .catch(console.error);
+  .catch(() => console.error);
 
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
@@ -133,7 +133,7 @@ function handleCardLike(evt, dataId) {
   api
     .toggleLike(dataId, isLiked)
     .then(() => evt.target.classList.toggle("card__like-button_liked"))
-    .catch(console.error);
+    .catch(() => console.error);
 }
 
 function handleImageClick(data) {
@@ -161,8 +161,8 @@ function handleDeleteSubmit(evt) {
       selectedCard.remove();
       closeModal(deleteModal);
     })
-    .catch(console.error)
-    .finally((submitButton.textContent = "Delete"));
+    .catch(() => console.error)
+    .finally(() => (submitButton.textContent = "Delete"));
 }
 
 deleteForm.addEventListener("submit", handleDeleteSubmit);
@@ -233,8 +233,8 @@ function handleEditFormSubmit(evt) {
       disableButton(profileSubmitButton, settings);
       closeModal(editProfileModal);
     })
-    .catch(console.error)
-    .finally((submitButton.textContent = "Save"));
+    .catch(() => console.error)
+    .finally(() => (submitButton.textContent = "Save"));
 }
 
 function handleCardFormSubmit(evt) {
@@ -253,8 +253,8 @@ function handleCardFormSubmit(evt) {
       disableButton(cardSubmitButton, settings);
       closeModal(addCardModal);
     })
-    .catch(console.error)
-    .finally((submitButton.textContent = "Save"));
+    .catch(() => console.error)
+    .finally(() => (submitButton.textContent = "Save"));
 }
 
 function handleAvatarSubmit(evt) {
@@ -265,12 +265,12 @@ function handleAvatarSubmit(evt) {
   api
     .editAvatarInfo(avatarInput.value)
     .then(() => {
-      (profileAvatar.src = avatarInput.value),
-        disableButton(avatarSubmitButton, settings),
-        closeModal(addAvatarModal);
+      profileAvatar.src = avatarInput.value;
+      disableButton(avatarSubmitButton, settings);
+      closeModal(addAvatarModal);
     })
-    .catch(console.error)
-    .finally((submitButton.textContent = "Save"));
+    .catch(() => console.error)
+    .finally(() => (submitButton.textContent = "Save"));
 }
 
 profileEditButton.addEventListener("click", () => {
