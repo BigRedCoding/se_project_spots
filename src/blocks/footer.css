@@ -13,6 +13,3 @@
   color: #212121;
   opacity: 70%;
 }
-/*I added a couple few changes, including an issue with .footer__copyright
-had a default margin of 16px top/bottom. I zeroed both .footer and
-.footer__copyright just in case. */

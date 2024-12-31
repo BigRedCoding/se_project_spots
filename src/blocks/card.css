@@ -30,15 +30,6 @@
 }
 
 .card__like-button {
-  /*I had to make some changes. This button wasn't displaying
-  correctly, nor was the card__title. You may not agree, but
-  seriously this is the only way I can make it look correct.
-  Part of why is the letter "g" causes the like button to
-  display below the line unless I cause the "g" to be cut
-  off. Also had to add a margin to the card title to
-  accommdate for the size of the like image plus 1px. These
-  issues were not addressed in previous reviews, but I felt
-  it necessary to fix it some type of way. */
   position: absolute;
   right: 0;
   bottom: 5px;
@@ -78,7 +69,7 @@
 }
 
 .card__like-button_liked {
-  background-image: url("../images/State_Liked.svg"); /*Review 1 issue 3. Fixed. Had to double click image in Figma, then download. Silly */
+  background-image: url("../images/State_Liked.svg");
   opacity: 100%;
 }
 
